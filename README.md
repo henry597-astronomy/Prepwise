@@ -25,3 +25,5 @@ pnpm build
 ```
 
 The read-only Ethio Cosmos project was used only as a UI pattern reference. It is not modified or imported as a dependency.
+
+Deployment trigger: Vercel production build configured.
