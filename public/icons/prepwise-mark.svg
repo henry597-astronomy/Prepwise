@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Prepwise mark</title>
+  <desc id="desc">An open folder with a violet forward notch.</desc>
+  <defs>
+    <linearGradient id="g" x1="12" y1="18" x2="116" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7c4dff"/>
+      <stop offset="1" stop-color="#3f2a9e"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="32" fill="#080d22"/>
+  <path d="M21 40.5A9.5 9.5 0 0 1 30.5 31H52l9 10h36.5a9.5 9.5 0 0 1 9.5 9.5v39A9.5 9.5 0 0 1 97.5 99h-67a9.5 9.5 0 0 1-9.5-9.5z" fill="url(#g)" stroke="#a78bfa" stroke-width="3"/>
+  <path d="M28 57h71" stroke="#d8ccff" stroke-opacity=".7" stroke-width="4" stroke-linecap="round"/>
+  <path d="m61 68 10 10 19-21" fill="none" stroke="#ff9f43" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

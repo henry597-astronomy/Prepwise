@@ -1,0 +1,9 @@
+{
+  "routes": [
+    { "path": "/", "title": "Prepwise dashboard" },
+    { "path": "/exams", "title": "Past exams" },
+    { "path": "/practice", "title": "Practice tests" },
+    { "path": "/ai", "title": "AI assistant" },
+    { "path": "/profile", "title": "Student profile" }
+  ]
+}
