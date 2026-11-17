@@ -1,33 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { ArrowLeft, ArrowRight, CheckCircle2, Clock3, Play, RotateCcw, Save, Star } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
-import { completeAttempt, createAttempt, db, toggleBookmark, type Exam, type Question, type Subject } from '@/db/schema';
+import { ArrowLeft, ArrowRight, CheckCircle2, Clock3, RotateCcw, Save, Star } from 'lucide-react';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import { completeAttempt, createAttempt, db, toggleBookmark, type Question } from '@/db/schema';
 import { answerQuestion, loadPracticeQuestions } from './practice-data';
-import { IconBadge } from '@/components/IconBadge';
 
 function formatTime(seconds: number) {
   const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
   const remaining = (seconds % 60).toString().padStart(2, '0');
   return `${minutes}:${remaining}`;
-}
-
-function PracticeSetup({ subjects, exams, onStart }: { subjects: Subject[]; exams: Exam[]; onStart: (exam: Exam) => void }) {
-  const [subjectId, setSubjectId] = useState('');
-  const [examId, setExamId] = useState('');
-  const subjectExams = exams.filter((exam) => exam.subjectId === subjectId).sort((a, b) => b.year - a.year);
-  const selectedExam = subjectExams.find((exam) => exam.id === examId);
-  const selectedSubject = subjects.find((subject) => subject.id === subjectId);
-  return <div className="practice-setup">
-    <header className="inner-header"><div><p className="eyebrow">Practice mode</p><h1>Choose your test</h1><p className="muted">Select a subject and year. The timer starts when you begin.</p></div></header>
-    <label className="field-label" htmlFor="practice-subject">Subject</label>
-    <select id="practice-subject" className="select-control" value={subjectId} onChange={(event) => { setSubjectId(event.target.value); setExamId(''); }}><option value="">Choose a subject</option>{subjects.map((subject) => <option key={subject.id} value={subject.id}>{subject.name}</option>)}</select>
-    {selectedSubject && <div className="selected-subject-pill"><IconBadge name={selectedSubject.icon as 'calculator'} color={selectedSubject.color} size="small" /><span>{selectedSubject.name}</span></div>}
-    <label className="field-label" htmlFor="practice-year">Year</label>
-    <select id="practice-year" className="select-control" value={examId} onChange={(event) => setExamId(event.target.value)} disabled={!subjectId}><option value="">{subjectId ? 'Choose a year' : 'Choose a subject first'}</option>{subjectExams.map((exam) => <option key={exam.id} value={exam.id}>{exam.year} · {exam.questionCount} questions · {exam.durationMinutes} min</option>)}</select>
-    {selectedExam && <div className="practice-start-card"><div><p className="eyebrow">Ready to begin</p><h2>{selectedSubject?.name} · {selectedExam.year}</h2><p className="muted">{selectedExam.questionCount} questions · {selectedExam.durationMinutes} minute timer</p></div><button className="primary-button" onClick={() => onStart(selectedExam)}><Play size={17} /> Start practice</button></div>}
-    {subjectId && !selectedExam && <div className="empty-state"><p className="eyebrow">No years available</p><h2>This subject has no imported practice paper yet.</h2><p className="muted">Choose another subject or return when an exam package is added.</p></div>}
-  </div>;
 }
 
 export function PracticePage() {
@@ -70,7 +51,7 @@ export function PracticePage() {
   const nextQuestion = () => { if (currentIndex >= questions.length - 1) { if (attemptId) void completeAttempt(attemptId, score + (selected === current?.answerIndex ? 1 : 0), questions.length); setFinished(true); } else { setCurrentIndex((value) => value + 1); setSelected(undefined); setSubmitted(false); } };
   const restart = () => { setSearchParams({ exam: selectedExam?.id ?? '' }); setAttemptId(undefined); setCurrentIndex(0); setSelected(undefined); setSubmitted(false); setScore(0); setFinished(false); setSecondsLeft(0); };
 
-  if (!selectedExam) return <div className="page inner-page"><PracticeSetup subjects={subjects} exams={exams} onStart={(exam) => setSearchParams({ exam: exam.id })} /></div>;
+  if (!selectedExam) return <Navigate to="/exams" replace />;
   if (!questions.length) return <div className="page inner-page"><button className="back-link" onClick={() => setSearchParams({})}><ArrowLeft size={16} /> Choose another test</button><div className="empty-state"><p className="eyebrow">{selectedSubject?.name} · {selectedExam.year}</p><h1>Practice content is not imported yet.</h1><p className="muted">This year is listed in the library, but its local questions are still waiting for an exam package import.</p></div></div>;
   if (finished) return <div className="page inner-page practice-result"><div className="result-icon"><CheckCircle2 size={42} /></div><p className="eyebrow">Practice complete</p><h1>{score} / {questions.length}</h1><p className="muted">Your result was saved locally. {secondsLeft === 0 ? 'The timer reached zero.' : 'Nice work.'}</p><div className="result-actions"><button className="primary-button" onClick={restart}><RotateCcw size={17} /> Try again</button><button className="secondary-button"><Save size={17} /> Review later</button></div></div>;
 

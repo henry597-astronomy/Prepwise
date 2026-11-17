@@ -6,7 +6,6 @@ import { IconBadge } from '@/components/IconBadge';
 
 const quickAccess = [
   { to: '/exams', label: 'Past Exams', helper: 'By subject & year', icon: 'exams' as const, color: '#2667f5' },
-  { to: '/practice', label: 'Practice Tests', helper: 'Timed & focused', icon: 'practice' as const, color: '#5a5be7' },
   { to: '/ai', label: 'AI Assistant', helper: 'Get help online', icon: 'ai' as const, color: '#f3bd20' },
   { to: '/profile', label: 'Study Resources', helper: 'Notes & tips', icon: 'resources' as const, color: '#fa8b18' },
 ];
@@ -63,8 +62,8 @@ export function DashboardPage() {
       </section>
 
       <section className="revision-card">
-        <div><p className="eyebrow">Revision trail</p><h2>{attemptRows.length ? 'You are building momentum.' : 'Your first practice is ready.'}</h2><p className="muted">Your progress is saved on this device first, even without internet.</p></div>
-        <Link to="/practice" className="primary-button">Continue practice</Link>
+        <div><p className="eyebrow">Exam trail</p><h2>{attemptRows.length ? 'You are building momentum.' : 'Your first exam is ready.'}</h2><p className="muted">Choose a subject and year to start. Your progress is saved on this device first.</p></div>
+        <Link to="/exams" className="primary-button">Choose exam</Link>
       </section>
     </div>
   );

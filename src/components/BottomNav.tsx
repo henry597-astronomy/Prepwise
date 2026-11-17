@@ -1,10 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import { Bot, ClipboardList, Home, PlayCircle, UserRound } from 'lucide-react';
+import { Bot, ClipboardList, Home, UserRound } from 'lucide-react';
 
 const items = [
   { to: '/', label: 'Home', icon: Home },
   { to: '/exams', label: 'Exams', icon: ClipboardList },
-  { to: '/practice', label: 'Practice', icon: PlayCircle },
   { to: '/ai', label: 'AI', icon: Bot },
   { to: '/profile', label: 'Profile', icon: UserRound },
 ];
